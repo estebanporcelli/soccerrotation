@@ -1,0 +1,88 @@
+* {
+  font-family: arial;
+}
+
+.field-table {
+  border: solid;
+  border-width: 1px;
+  width=400px;
+}
+
+.field-row {
+  border: dotted;
+  border-width: 1px;
+  background-color: #009900;
+}
+
+.field-table-row {
+  border: dashed;
+  border-width: 1px;
+  table-layout: fixed;
+}
+
+.column-position {
+  border: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  text-align: center;
+  padding: 2px;
+  /*display: table;*/
+  /*display: flex;
+  align-items: center;
+  height:160px;*/
+}
+
+.position {
+  background-color: #83fba6;
+  height: 35px;
+  /*border-radius: 10px;*/
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /*font-weight: bold;*/
+  font-size: 120%;
+  /*vertical-align: middle;
+  display: table-cell;*/
+  line-height: 30px;
+}
+
+.position:hover {
+  background-color: yellow;
+}
+
+.substitute {
+  background-color: white;
+  height: 35px;
+  /*border-radius: 10px;*/
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  text-align: right;
+  line-height: 30px;
+}
+
+.substitute:hover {
+  background-color: yellow;
+}
+
+.bench-player {
+  float: left;
+  padding: 10px;
+  border: solid;
+  border-width: 2px;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 15px;
+  width: 60px;
+  text-align: center;
+}
+
+.bench-player:hover {
+  background-color: yellow;
+}
+
+.debug-info {
+  padding: 10px;
+  border: dashed;
+  border-width: 1px;
+  border-color: grey;
+  width: 350px;
+}
