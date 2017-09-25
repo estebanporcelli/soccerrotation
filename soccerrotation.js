@@ -1,4 +1,4 @@
-var players = ["andy", "brandon", "brody", "chris","danny", "jacob","jake", "joey", "josh", "kevin", "lj", "marco", "matt", "rushil",
+var players = ["andy", "brandon", "brody", "chris", "danny", "jacob", "jake", "joey", "josh", "kevin", "lj", "marco", "matt", "rushil",
   "saif", "scott", "warren"
 ];
 
@@ -12,10 +12,18 @@ var bench = players.slice()
 
 var formation = [2, 4, 4, 1];
 
+var totalTime = 0;
+var lastCheck = null;
+var timer;
+
+var playersStats = {}
+
 function populateBench() {
   for (i = 0; i < bench.length; i++) {
     createBenchPlayerElement(bench[i])
+    playersStats[bench[i]] = {"time":0}
   }
+  console.log(playersStats)
 }
 
 function updateUI() {
@@ -122,8 +130,8 @@ function updateDebugInfoUI() {
 function onclickSelectBenchPlayer() {
   benchPlayer = event.srcElement.id
   if (selectBenchPlayer(benchPlayer)) {
-  	// revent bench from receiving click event
-    event.stopPropagation() 
+    // revent bench from receiving click event
+    event.stopPropagation()
     updateUI()
   }
 }
@@ -266,4 +274,73 @@ function unassignSubstitutePosition(position) {
   } else {
     //nothing to do
   }
+}
+
+function start() {
+  console.log("started timer")
+  timer = setInterval(updateTime, 4000);
+}
+
+function stop() {
+  clearInterval(timer)
+
+  if (lastCheck != undefined) {
+    currTime = (new Date()).getTime()
+    totalTime = totalTime + (currTime - lastCheck)
+  }
+  lastCheck = undefined
+  displayTime()
+}
+
+function updateTime() {
+  if (lastCheck == undefined) {
+    lastCheck = (new Date()).getTime()
+  } else {
+    currTime = (new Date()).getTime()
+    increment = currTime - lastCheck
+    totalTime = totalTime + increment
+    lastCheck = currTime
+
+    updatePlayersStats(increment)
+  }
+  displayTime()
+}
+
+function displayTime() {
+  minutes = Math.floor(totalTime / 1000 / 60)
+  seconds = totalTime / 1000 - minutes * 60
+
+  document.getElementById("time").innerHTML = minutes + ":" + Math.round(seconds)
+
+}
+
+function updatePlayersStats(increment) {
+  for (pos in positions) {
+    if (positions[pos] == undefined) {
+      //nothing to do
+    } else {
+      playersStats[positions[pos]].time = playersStats[positions[pos]].time + increment
+    }
+  }
+  //console.log(playersStats)
+}
+
+function updateStats() {
+	console.log("update stats")
+	stats = new Map()
+  for(player in playersStats) {
+  	stats.set(playersStats[player].time + "" + player, [player, playersStats[player].time]) 
+  }
+  //stats.sort()
+  keys = Array.from(stats.keys()).sort()
+  //console.log(stats.keys())
+  //console.log(stats.size)
+  report = ""
+  for(i in keys) {
+    //console.log(keys[i])
+  	report = report + stats.get(keys[i])[0] + ": " + stats.get(keys[i])[1] + "<br>"
+  }
+  //console.log(report)
+	document.getElementById("stats").innerHTML = report
+	//JSON.stringify(playersStats)
 }
