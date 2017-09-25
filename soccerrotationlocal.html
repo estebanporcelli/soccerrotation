@@ -6,7 +6,7 @@
 <body onload="populateBench()">
 
 
-  <table class="field-table" width="100%">
+  <table class="field-table" width="350px">
     <tr class="field-row">
       <td>
         <table class="field-table-row" width="100%">
@@ -131,6 +131,11 @@
     </tr>
 
   </table>
+  <span>
+  <button onclick="start()">start</button>
+  <button onclick="stop()">stop</button>
+  Time: <span id="time"></span>
+  </span>
   <p>Bench</p>
   <div id="bench" onclick="onclickSelectBench()" style='border:solid; padding:10px; overflow:hidden;width:350px'>
 
@@ -153,6 +158,12 @@
       <p id="benchPlayers"></p>
     </div>
   </div>
+  
+  <button onclick="updateStats()">update stats</button>
+  <div id="stats" class="stats">
+  
+  </div>
 </body>
+
 
 </html>
