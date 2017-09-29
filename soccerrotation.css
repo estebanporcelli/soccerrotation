@@ -85,4 +85,5 @@
   border-width: 1px;
   border-color: grey;
   width: 350px;
+  word-wrap: break-word;
 }
