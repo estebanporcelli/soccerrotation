@@ -6,8 +6,8 @@ var selectedBenchPlayer;
 var selectedPosition;
 var selectedSubstitutePosition;
 
-var positions = [];
-var substitutePositions = [];
+var positions = {}
+var substitutePositions = {}
 var bench = players.slice()
 
 var formation = [2, 4, 4, 1];
@@ -19,14 +19,35 @@ var timer;
 var playersStats = {}
 
 function populateBench() {
-  for (i = 0; i < bench.length; i++) {
-    createBenchPlayerElement(bench[i])
-    playersStats[bench[i]] = {"time":0}
+  storedBench = localStorage.getItem("bench")
+  if(storedBench == null) {
+  	for (i = 0; i < bench.length; i++) {
+    	createBenchPlayerElement(bench[i])
+    	playersStats[bench[i]] = {"time":0}
+  	}
+  } else {
+  	bench = JSON.parse(storedBench)
+    console.log("loading bench")
+    console.log(bench)
   }
   console.log(playersStats)
+  
+  storedPositions = localStorage.getItem("positions")
+  if(storedPositions != null) {
+  	positions = JSON.parse(storedPositions) 
+  }
+  
+  updateUI()
 }
 
 function updateUI() {
+  console.log("updateUI")
+  //console.log(positions)
+
+	localStorage.setItem("positions", JSON.stringify(positions))
+  localStorage.setItem("bench", JSON.stringify(bench))
+  //localStorage.removeItem("bench")
+  
   //update bench
   updateBenchUI()
 
@@ -160,7 +181,7 @@ function assignBenchPlayerToPosition(benchPlayer, position) {
   }
 
   positions[position] = benchPlayer
-  delete bench[bench.indexOf(benchPlayer)]
+  bench.splice(bench.indexOf(benchPlayer),1)
   selectedPosition = undefined
   selectedBenchPlayer = undefined
 
@@ -220,7 +241,7 @@ function selectPosition(position) {
       // empty substitute position selected
       // nothing to do
     } else {
-      if (confirm("Sub?") == true) {
+      //if (confirm("Sub?") == true) {
         //unassign player
         unassignPosition(position)
           //unassign sub player
@@ -228,8 +249,8 @@ function selectPosition(position) {
           //assign sub player
           //assignPlayerToPosition(substitutePlayer, position)
         positions[position] = substitutePlayer
-        delete bench[bench.indexOf(substitutePlayer)]
-      }
+        bench.splice(bench.indexOf(substitutePlayer),1)
+      //}
     }
     selectedSubstitutePosition = undefined
   }
@@ -260,7 +281,7 @@ function assignBenchPlayerToSubstitutePosition(benchPlayer, position) {
   }
 
   substitutePositions[position] = benchPlayer
-  delete bench[bench.indexOf(benchPlayer)]
+  bench.splice(bench.indexOf(benchPlayer),1)
   selectedSubstitutePosition = undefined
   selectedBenchPlayer = undefined
 
