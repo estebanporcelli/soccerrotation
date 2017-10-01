@@ -54,10 +54,7 @@ function updateUI() {
   localStorage.setItem("positions", JSON.stringify(positions))
   localStorage.setItem("bench", JSON.stringify(bench))
   localStorage.setItem("playersStats", JSON.stringify(playersStats))
-  //localStorage.removeItem("bench")
-  //localStorage.removeItem("positions")
-  //localStorage.removeItem("playersStats")
-
+  
   //update bench
   updateBenchUI()
 
@@ -331,6 +328,13 @@ function reset() {
   for (player in playersStats) {
     playersStats[player].time = 0
   }
+  //bench = []
+  //positions = {}
+  //playerStats = {}
+  localStorage.removeItem("bench")
+  localStorage.removeItem("positions")
+  localStorage.removeItem("playersStats")
+  //updateUI()
 }
 
 function updateTime() {
