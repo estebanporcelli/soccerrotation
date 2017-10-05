@@ -20,8 +20,12 @@ var playersStats = {}
 
 function populateBench() {
   storedBench = localStorage.getItem("bench")
-  if (storedBench == null) {
-    for (i = 0; i < bench.length; i++) {
+  console.log("storedBench:")
+  console.log(storedBench)
+  if (storedBench == null || storedBench == "[]") {
+  	console.log("empty bench")
+    for (i = 0; i < players.length; i++) {
+    	bench[i] = players[i]
       createBenchPlayerElement(bench[i])
       playersStats[bench[i]] = {
         "time": 0
@@ -31,6 +35,12 @@ function populateBench() {
     bench = JSON.parse(storedBench)
     console.log("loading bench")
     console.log(bench)
+    for (i = 0; i < bench.length; i++) {
+      createBenchPlayerElement(bench[i])
+      playersStats[bench[i]] = {
+        "time": 0
+      }
+    }
   }
   console.log(playersStats)
 
@@ -325,16 +335,14 @@ function start() {
 function reset() {
 	totalTime = 0
   
-  for (player in playersStats) {
-    playersStats[player].time = 0
-  }
-  //bench = []
-  //positions = {}
-  //playerStats = {}
+  bench = []
+  positions = {}
+  playerStats = {}
+  substituPlayerPositions = {}
   localStorage.removeItem("bench")
   localStorage.removeItem("positions")
   localStorage.removeItem("playersStats")
-  //updateUI()
+  populateBench()
 }
 
 function updateTime() {
