@@ -318,7 +318,7 @@ function start() {
   console.log("started timer")
   if (timer == undefined) {
     //start
-    timer = setInterval(updateTime, 4000);
+    timer = setInterval(updateTime, 1000);
   } else {
   	//stop
     clearInterval(timer)
@@ -391,7 +391,7 @@ function updateStats() {
   report = ""
   for (i in keys) {
     //console.log(keys[i])
-    report = report + stats.get(keys[i])[0] + ": " + stats.get(keys[i])[1] + "<br>"
+    report = report + stats.get(keys[i])[0] + ": " + Math.floor(stats.get(keys[i])[1] / 1000 / 60) + "<br>"
   }
   //console.log(report)
   document.getElementById("stats").innerHTML = report
