@@ -10,11 +10,13 @@ var positions = {}
 var substitutePositions = {}
 var bench = players.slice()
 
-var formation = [2, 4, 4, 1];
+var formation = [2, 4, 4, 1]
 
 var totalTime = 0;
 var lastCheck = null;
 var timer;
+
+var substitutionHistory = []
 
 var playersStats = {}
 
@@ -76,6 +78,8 @@ function updateUI() {
 
   //debug info
   updateDebugInfoUI()
+  
+  updateSubstitutionHistoryUI()
 }
 
 function updatePositionsUI() {
@@ -148,6 +152,15 @@ function createBenchPlayerElement(playerName) {
   document.getElementById("bench").appendChild(benchPlayerElement)
 }
 
+function updateSubstitutionHistoryUI() {
+  res = ""
+  substitutionHistory.forEach(function(element) {
+  	res = res + element[0] + " - " + element[1] + " -> " + element[2] + "<br>"
+  })
+  
+	document.getElementById("substitutionHistory").innerHTML =  res
+}
+
 function updateDebugInfoUI() {
   document.getElementById("positions").innerHTML = Object.entries(positions)
 
@@ -194,6 +207,8 @@ function assignBenchPlayerToPosition(benchPlayer, position) {
   if (positions[position] == undefined) {
 
   } else {
+    sub = [(new Date()).toLocaleTimeString(), benchPlayer, positions[position]]
+    substitutionHistory.push(sub)
     unassignPosition(position)
   }
 
@@ -259,6 +274,9 @@ function selectPosition(position) {
       // nothing to do
     } else {
       //if (confirm("Sub?") == true) {
+      sub = [(new Date()).toLocaleTimeString(), substitutePlayer, positions[position]]
+    	substitutionHistory.push(sub)
+      
       //unassign player
       unassignPosition(position)
         //unassign sub player
@@ -322,6 +340,7 @@ function start() {
   } else {
   	//stop
     clearInterval(timer)
+    timer = undefined
 
     if (lastCheck != undefined) {
       currTime = (new Date()).getTime()
