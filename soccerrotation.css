@@ -80,6 +80,7 @@
 }
 
 .debug-info {
+  visibility: hidden;
   padding: 10px;
   border: dashed;
   border-width: 1px;
